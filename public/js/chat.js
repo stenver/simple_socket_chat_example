@@ -27,11 +27,10 @@ function ChatWindow(socket, owner, inputId, sendId, chatBoxId){
   });
 }
 
-ChatWindow.prototype.receive = function(msg){
-  console.log(msg)
+ChatWindow.prototype.writeMessageToChatbox = function(msg){
   var textArea = $(this.chatBoxId);
 
-  textArea.val(textArea.val() + '\n' + msg);
+  textArea.val(textArea.val() + msg + '\n');
   textArea.animate({
     scrollTop:textArea[0].scrollHeight - textArea.height()
   });
@@ -41,9 +40,11 @@ ChatWindow.prototype.joinRoom = function(roomName){
   this.roomName = roomName
   this.socket.emit("join_room", { room: this.roomName});
 
+  // http://stackoverflow.com/questions/8317724/javascript-class-variable-scope-in-callback-function
+  var that = this;
   this.socket.on('new_message', function(data){
     console.log('got message ' + data.message)
-    receive(data)
+    that.writeMessageToChatbox(data.message)
   })
 }
 
@@ -51,6 +52,7 @@ ChatWindow.prototype.send = function(msg, senderName){
   console.log('Sending message to ' + this.roomName);
   console.log('Message: ' + msg)
   this.socket.emit('new_message', { room: this.roomName, message: msg })
+  this.writeMessageToChatbox(msg)
 }
 
 window.onload = function(){
@@ -59,6 +61,5 @@ window.onload = function(){
   var leftChat = new ChatWindow(socket, "Left Guy", '#left-input', '#left-send', '#left-textarea');
   var rightChat = new ChatWindow(socket, "Right Guy", '#right-input', '#right-send', '#right-textarea');
   leftChat.joinRoom("leftRoom");
-  rightChat.joinRoom("rightRoom");
 }
 
