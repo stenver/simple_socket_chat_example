@@ -58,8 +58,7 @@ ChatWindow.prototype.send = function(msg, senderName){
 window.onload = function(){
   var socket = io.connect('http://localhost:3000');
   console.log('Connected to server!')
-  var leftChat = new ChatWindow(socket, "Left Guy", '#left-input', '#left-send', '#left-textarea');
-  var rightChat = new ChatWindow(socket, "Right Guy", '#right-input', '#right-send', '#right-textarea');
-  leftChat.joinRoom("leftRoom");
+  var chatRoom = new ChatWindow(socket, "Left Guy", '#left-input', '#left-send', '#left-textarea');
+  chatRoom.joinRoom("FirstRoom");
 }
 
