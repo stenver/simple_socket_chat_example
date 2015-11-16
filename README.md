@@ -1,6 +1,8 @@
 simple_socket_chat_example
 ==========================
 
+Simple minimalistic chat example for Tartu University `Creating Web Applications` class.
+
 Download and install nvm(node version manager)
 https://github.com/creationix/nvm
 Dont forget to export nvm in your bash or profile!
